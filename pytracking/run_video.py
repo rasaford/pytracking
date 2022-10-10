@@ -26,7 +26,7 @@ def main():
     parser.add_argument('videofile', type=str, help='path to a video file.')
     parser.add_argument('--optional_box', type=float, default=None, nargs="+", help='optional_box with format x y w h.')
     parser.add_argument('--debug', type=int, default=0, help='Debug level.')
-    parser.add_argument('--save_results', dest='save_results', action='store_true', help='Save bounding boxes')
+    parser.add_argument('--save_results', dest='save_results', ation='store_true', help='Save bounding boxes')
     parser.set_defaults(save_results=False)
 
     args = parser.parse_args()

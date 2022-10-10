@@ -13,6 +13,7 @@ from pytracking.utils.convert_vot_anno_to_rect import convert_vot_anno_to_rect
 from ltr.data.bounding_box_utils import masks_to_bboxes
 from pytracking.evaluation.multi_object_wrapper import MultiObjectWrapper
 from pathlib import Path
+from PIL import Image
 import torch
 
 
@@ -246,6 +247,16 @@ class Tracker:
                 tracker.visdom_draw_tracking(image, bboxes, segmentation)
             elif tracker.params.visualization:
                 self.visualize(image, bboxes, segmentation)
+
+            if tracker.params.save_segmentation:
+                if not os.path.exists(self.segmentation_dir):
+                    os.makedirs(self.segmentation_dir)
+
+                img = Image.fromarray(segmentation)
+                out_path =os.path.join(self.segmentation_dir, f"{frame_num:05d}.png")
+                print("Saving segmentation at: ", out_path)
+                img.save(out_path)
+                
 
         for key in ['target_bbox', 'segmentation']:
             if key in output and len(output[key]) <= 1:
@@ -707,8 +718,8 @@ class Tracker:
         for i, box in enumerate(boxes, start=1):
             col = _tracker_disp_colors[i]
             col = [float(c) / 255.0 for c in col]
-            rect = patches.Rectangle((box[0], box[1]), box[2], box[3], linewidth=1, edgecolor=col, facecolor='none')
-            self.ax.add_patch(rect)
+            #rect = patches.Rectangle((box[0], box[1]), box[2], box[3], linewidth=1, edgecolor=col, facecolor='none')
+            #self.ax.add_patch(rect)
 
         if getattr(self, 'gt_state', None) is not None:
             gt_state = self.gt_state

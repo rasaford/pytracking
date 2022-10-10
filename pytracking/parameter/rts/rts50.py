@@ -13,6 +13,7 @@ def parameters():
     params.visualization = True
     params.multiobj_mode = 'parallel'
     params.use_gpu = True
+    params.save_segmentation = True
 
     ##########################################
     # Bounding box init network

@@ -1,0 +1,8 @@
+opencv-python
+visdom
+scikit-image
+tikzplotlib
+gdown
+pycocotools
+lvis
+jpeg4py

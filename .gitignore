@@ -4,7 +4,6 @@
 *.pyc
 *.pytest_cache
 *.ipynb_checkpoints/
-*.egg-info/
 ltr/admin/local.py
 ltr/run_ltr_local.py
 ltr/train_settings/*/debug.py
@@ -15,4 +14,4 @@ pytracking/segmentation_results/
 pytracking/result_plots/
 pytracking/evaluation/local.py
 pytracking/run_local.py
-
+*.egg-info/

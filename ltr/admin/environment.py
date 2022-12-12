@@ -44,11 +44,40 @@ def create_default_local_file():
                 f.write('        self.{} = {}    # {}\n'.format(attr, attr_val, comment_str))
 
 
+
+class EnvironmentSettings:
+    def __init__(self):
+        self.workspace_dir = ''    # Base directory for saving network checkpoints.
+        self.tensorboard_dir = self.workspace_dir + '/tensorboard/'    # Directory for tensorboard files.
+        self.pretrained_networks = self.workspace_dir + '/pretrained_networks/'
+        self.pregenerated_masks = ''
+        self.lasot_dir = ''
+        self.got10k_dir = ''
+        self.trackingnet_dir = ''
+        self.coco_dir = ''
+        self.lvis_dir = ''
+        self.sbd_dir = ''
+        self.imagenet_dir = ''
+        self.imagenetdet_dir = ''
+        self.ecssd_dir = ''
+        self.hkuis_dir = ''
+        self.msra10k_dir = ''
+        self.davis_dir = '/tmp/tracking-davis'
+        # self.davis_dir = '/home/asl-student-mf/datasets/baking-davis'
+        self.youtubevos_dir = ''
+        self.lasot_candidate_matching_dataset_path = ''
+
+
+# exported global variable holding all environment variables
+# This is added in order to set these values from other python functions by directly importing this variable
+ENV_SETTINGS = EnvironmentSettings()
+
+
 def env_settings():
     env_module_name = 'ltr.admin.local'
     try:
-        env_module = importlib.import_module(env_module_name)
-        return env_module.EnvironmentSettings()
+        # env_module = importlib.import_module(env_module_name)
+        return ENV_SETTINGS
     except:
         env_file = os.path.join(os.path.dirname(__file__), 'local.py')
 

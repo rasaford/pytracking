@@ -39,6 +39,8 @@ class Davis(VOSDatasetBase):
                 raise Exception('Unknown split {}'.format(split))
         else:
             root = env_settings().davis16_dir if root is None else root
+
+        print(f"Create dataset davis dir: {root}")
             
         super().__init__(name='DAVIS', root=Path(root), version=version, split=split, multiobj=multiobj,
                          vis_threshold=vis_threshold, image_loader=image_loader)

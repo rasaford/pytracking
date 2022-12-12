@@ -44,7 +44,7 @@ class Tracker:
         display_name: Name to be displayed in the result plots.
     """
 
-    def __init__(self, name: str, parameter_name: str, run_id: int = None, display_name: str = None):
+    def __init__(self, name: str, parameter_name: str, run_id: int = None, display_name: str = None, segmentation_dir: str = None):
         assert run_id is None or isinstance(run_id, int)
 
         self.name = name
@@ -55,10 +55,12 @@ class Tracker:
         env = env_settings()
         if self.run_id is None:
             self.results_dir = '{}/{}/{}'.format(env.results_path, self.name, self.parameter_name)
-            self.segmentation_dir = '{}/{}/{}'.format(env.segmentation_path, self.name, self.parameter_name)
         else:
             self.results_dir = '{}/{}/{}_{:03d}'.format(env.results_path, self.name, self.parameter_name, self.run_id)
-            self.segmentation_dir = '{}/{}/{}_{:03d}'.format(env.segmentation_path, self.name, self.parameter_name, self.run_id)
+        if segmentation_dir is None:
+            self.segmentation_dir = '{}/{}/{}'.format(env.segmentation_path, self.name, self.parameter_name)
+        else:
+            self.segmentation_dir = segmentation_dir
 
         tracker_module_abspath = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'tracker', self.name))
         if os.path.isdir(tracker_module_abspath):
@@ -248,12 +250,12 @@ class Tracker:
             elif tracker.params.visualization:
                 self.visualize(image, bboxes, segmentation)
 
-            if tracker.params.save_segmentation:
+            if tracker.params.save_segmentation and self.segmentation_dir is not None:
                 if not os.path.exists(self.segmentation_dir):
                     os.makedirs(self.segmentation_dir)
 
                 img = Image.fromarray(segmentation)
-                out_path =os.path.join(self.segmentation_dir, f"{frame_num:05d}.png")
+                out_path = os.path.join(self.segmentation_dir, f"{frame_num:05d}.png")
                 print("Saving segmentation at: ", out_path)
                 img.save(out_path)
                 

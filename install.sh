@@ -102,13 +102,16 @@ sudo apt-get install ninja-build
 echo ""
 echo ""
 echo "****************** Downloading networks ******************"
-mkdir pytracking/networks
+mkdir -p pytracking/networks
 
 echo ""
 echo ""
-echo "****************** DiMP50 Network ******************"
-gdown https://drive.google.com/uc\?id\=1qgachgqks2UGjKx-GdO1qylBDdB1f9KN -O pytracking/networks/dimp50.pth
+echo "****************** RTS50 Network ******************"
 # gdown https://drive.google.com/uc\?id\=1MAjrRJDCbL0DSjUKFyDkUuYS1-cYBNjk -O pytracking/networks/dimp18.pth
+
+# download model checkpoints
+gdown https://drive.google.com/uc?id=1rtbroSRkymuyRMSJ41UPi4ReifyJ9_e2 -O pytracking/networks/rts50.pth
+gdown https://drive.google.com/uc?id=11Hcuy-1Py5DJbv5uQbceWIOgNhyC9a6D -O pytracking/networks/sta.pth.tar
 
 # echo ""
 # echo ""

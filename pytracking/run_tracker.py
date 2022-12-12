@@ -12,7 +12,7 @@ from pytracking.evaluation import Tracker
 
 
 def run_tracker(tracker_name, tracker_param, run_id=None, dataset_name='otb', sequence=None, debug=0, threads=0,
-                visdom_info=None):
+                visdom_info=None, segmentation_dir:str =None):
     """Run tracker on sequence or dataset.
     args:
         tracker_name: Name of tracking method.
@@ -23,6 +23,7 @@ def run_tracker(tracker_name, tracker_param, run_id=None, dataset_name='otb', se
         debug: Debug level.
         threads: Number of threads.
         visdom_info: Dict optionally containing 'use_visdom', 'server' and 'port' for Visdom visualization.
+        segmentation_dir: str Optional segmentation output direction
     """
 
     visdom_info = {} if visdom_info is None else visdom_info
@@ -32,7 +33,7 @@ def run_tracker(tracker_name, tracker_param, run_id=None, dataset_name='otb', se
     if sequence is not None:
         dataset = [dataset[sequence]]
 
-    trackers = [Tracker(tracker_name, tracker_param, run_id)]
+    trackers = [Tracker(tracker_name, tracker_param, run_id, segmentation_dir=segmentation_dir)]
 
     run_dataset(dataset, trackers, debug, threads, visdom_info=visdom_info)
 
@@ -49,6 +50,7 @@ def main():
     parser.add_argument('--use_visdom', type=bool, default=True, help='Flag to enable visdom.')
     parser.add_argument('--visdom_server', type=str, default='127.0.0.1', help='Server for visdom.')
     parser.add_argument('--visdom_port', type=int, default=8097, help='Port for visdom.')
+    parser.add_argument("--segmentation_dir", type=str, required=False, help="Output directory for the tracked masks")
 
     args = parser.parse_args()
 
@@ -58,7 +60,7 @@ def main():
         seq_name = args.sequence
 
     run_tracker(args.tracker_name, args.tracker_param, args.runid, args.dataset_name, seq_name, args.debug,
-                args.threads, {'use_visdom': args.use_visdom, 'server': args.visdom_server, 'port': args.visdom_port})
+                args.threads, {'use_visdom': args.use_visdom, 'server': args.visdom_server, 'port': args.visdom_port}, args.segmentation_dir)
 
 
 if __name__ == '__main__':

@@ -27,6 +27,9 @@ class EnvSettings:
         self.got_reports_path = ''
         self.tn_packed_results_path = ''
 
+# Storing the env settings as a global variable make them importable by other python functions
+# Allowing us to set the paths in there programmatically
+ENV_SETTINGS = EnvSettings()
 
 def create_default_local_file():
     comment = {'results_path': 'Where to store tracking results',
@@ -57,8 +60,7 @@ def create_default_local_file():
 def env_settings():
     env_module_name = 'pytracking.evaluation.local'
     try:
-        env_module = importlib.import_module(env_module_name)
-        return env_module.local_env_settings()
+        return ENV_SETTINGS
     except:
         env_file = os.path.join(os.path.dirname(__file__), 'local.py')
 
